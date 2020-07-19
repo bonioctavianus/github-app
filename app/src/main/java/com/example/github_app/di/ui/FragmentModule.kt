@@ -1,6 +1,6 @@
 package com.example.github_app.di.ui
 
-import com.example.github_app.ui.SearchUserFragment
+import com.example.github_app.ui.search.SearchUserFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

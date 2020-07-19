@@ -1,17 +1,17 @@
-package com.example.github_app.ui
+package com.example.github_app.ui.search
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.github_app.R
 import com.example.github_app.ui.base.BaseFragment
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.Observable
+import kotlinx.android.synthetic.main.fragment_search_user.*
 import javax.inject.Inject
 
 class SearchUserFragment : BaseFragment<SearchUserIntent, SearchUserViewState>() {
@@ -32,14 +32,14 @@ class SearchUserFragment : BaseFragment<SearchUserIntent, SearchUserViewState>()
         return inflater.inflate(R.layout.fragment_search_user, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        component_search_result.mActivity = requireActivity()
+    }
+
     override fun intents(): Observable<SearchUserIntent> {
-        return Observable.just(
-            SearchUserIntent.SearchUser(
-                query = "bonioctavianus",
-                perPage = 10,
-                page = 1
-            )
-        )
+        return component_search_result.intents()
     }
 
     override fun bindIntent(intent: Observable<SearchUserIntent>) {
@@ -48,15 +48,7 @@ class SearchUserFragment : BaseFragment<SearchUserIntent, SearchUserViewState>()
 
     override fun observeState(state: MutableLiveData<SearchUserViewState>) {
         state.observe(viewLifecycleOwner, Observer { value ->
-            when (value) {
-                is SearchUserViewState.Success -> {
-                    Toast.makeText(
-                        requireContext(),
-                        value.result.users.first().username,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+            component_search_result.renderViewState(value)
         })
     }
 

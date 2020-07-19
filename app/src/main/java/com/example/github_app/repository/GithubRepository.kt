@@ -1,6 +1,6 @@
 package com.example.github_app.repository
 
-import com.example.github_app.domain.SearchUserResult
+import com.example.github_app.model.SearchUserResult
 import io.reactivex.Single
 
 interface GithubRepository {
