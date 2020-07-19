@@ -1,6 +1,7 @@
 package com.example.github_app.model
 
-interface Cell
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 
 data class SearchUserResult(
     val totalCount: Int,
@@ -11,6 +12,14 @@ data class User(
     val id: Int,
     val username: String,
     val avatar: String
-) : Cell
+)
 
-object Progress : Cell
+data class Info(
+    @DrawableRes val image: Int,
+    @StringRes val message: Int
+)
+
+data class Error(
+    @DrawableRes val image: Int,
+    val message: String
+)

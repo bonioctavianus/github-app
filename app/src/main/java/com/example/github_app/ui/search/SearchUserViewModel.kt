@@ -3,7 +3,8 @@ package com.example.github_app.ui.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.github_app.model.Progress
+import com.example.github_app.R
+import com.example.github_app.model.Error
 import com.example.github_app.ui.base.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
@@ -34,15 +35,9 @@ class SearchUserViewModel(
         BiFunction { state: SearchUserViewState, changes: SearchUserPartialState ->
             when (changes) {
                 is SearchUserPartialState.Search.InFlight -> {
-                    val cells = listOf(Progress)
-
                     SearchUserViewState.default().copy(
-                        isTotalItemLabelVisible = false,
-                        data = SearchUserData(
-                            totalItemCount = 0,
-                            page = 0,
-                            cells = cells
-                        )
+                        isLoading = true,
+                        data = SearchUserData()
                     )
                 }
 
@@ -51,56 +46,51 @@ class SearchUserViewModel(
                         data = state.data?.copy(
                             totalItemCount = changes.result.totalCount,
                             page = state.data.page + 1,
-                            cells = changes.result.users
+                            users = changes.result.users
                         )
                     )
                 }
 
                 is SearchUserPartialState.Search.Error -> {
                     SearchUserViewState.default().copy(
-                        isTotalItemLabelVisible = false,
-                        initialError = changes.error
-                    )
-                }
-
-                is SearchUserPartialState.LoadMore.InFlight -> {
-                    val cells = state.data?.cells?.toMutableList()
-                    cells?.add(Progress)
-
-                    SearchUserViewState.default().copy(
                         data = state.data?.copy(
-                            cells = cells
+                            initialError = Error(
+                                image = R.drawable.ic_error,
+                                message = changes.error
+                            )
                         )
                     )
                 }
 
+                is SearchUserPartialState.LoadMore.InFlight -> {
+                    SearchUserViewState.default().copy(
+                        isLoadMoreLoading = true,
+                        data = state.data
+                    )
+                }
+
                 is SearchUserPartialState.LoadMore.Success -> {
-                    val cells = state.data?.cells?.toMutableList() ?: mutableListOf()
-                    cells.remove(Progress)
+                    val users = state.data?.users?.toMutableList() ?: mutableListOf()
 
                     changes.result.users.forEach { user ->
-                        if (!cells.contains(user)) {
-                            cells.add(user)
+                        if (!users.contains(user)) {
+                            users.add(user)
                         }
                     }
 
                     SearchUserViewState.default().copy(
                         data = state.data?.copy(
                             page = state.data.page + 1,
-                            cells = cells
+                            users = users
                         )
                     )
                 }
 
                 is SearchUserPartialState.LoadMore.Error -> {
-                    val cells = state.data?.cells?.toMutableList()
-                    cells?.remove(Progress)
-
                     SearchUserViewState.default().copy(
                         data = state.data?.copy(
-                            cells = cells
-                        ),
-                        loadMoreError = changes.error
+                            loadMoreError = changes.error
+                        )
                     )
                 }
             }
