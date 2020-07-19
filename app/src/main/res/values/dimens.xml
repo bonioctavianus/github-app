@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="small_space">8dp</dimen>
+    <dimen name="default_space">16dp</dimen>
+
+    <dimen name="search_button_height">56dp</dimen>
+    <dimen name="search_result_avatar_size">56dp</dimen>
+    <dimen name="search_result_progress_bar_size">32dp</dimen>
+</resources>

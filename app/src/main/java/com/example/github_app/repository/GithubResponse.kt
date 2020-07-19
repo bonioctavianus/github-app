@@ -8,6 +8,7 @@ data class SearchUserResponse(
 )
 
 data class UserResponse(
+    @SerializedName(value = "id") val id: Int?,
     @SerializedName(value = "login") val username: String?,
     @SerializedName(value = "avatar_url") val avatar: String?
 )

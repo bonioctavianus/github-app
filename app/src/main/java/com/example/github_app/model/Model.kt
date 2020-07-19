@@ -1,4 +1,6 @@
-package com.example.github_app.domain
+package com.example.github_app.model
+
+interface Cell
 
 data class SearchUserResult(
     val totalCount: Int,
@@ -6,6 +8,9 @@ data class SearchUserResult(
 )
 
 data class User(
+    val id: Int,
     val username: String,
     val avatar: String
-)
+) : Cell
+
+object Progress : Cell

@@ -1,7 +1,7 @@
 package com.example.github_app.repository
 
-import com.example.github_app.domain.SearchUserResult
-import com.example.github_app.domain.User
+import com.example.github_app.model.SearchUserResult
+import com.example.github_app.model.User
 import javax.inject.Inject
 
 class GithubTransformer @Inject constructor() {
@@ -11,6 +11,7 @@ class GithubTransformer @Inject constructor() {
             totalCount = response.totalCount ?: 0,
             users = response.users?.map { user ->
                 User(
+                    id = user.id ?: -1,
                     username = user.username ?: "",
                     avatar = user.avatar ?: ""
                 )
