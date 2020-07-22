@@ -41,6 +41,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$mock_web_server_version"
+    testImplementation "com.jraska.livedata:testing-ktx:$live_data_testing_version"
+    testImplementation "android.arch.core:core-testing:$arch_core_testing_version"
 
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.core:core-ktx:$core_ktx_version"
